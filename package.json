@@ -1,0 +1,33 @@
+{
+  "name": "api-scraping-nodejs",
+  "description": "Integrasikan API Scraping ke dalam aplikasi Anda untuk ekstraksi data web yang efisien.",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "API Scraping",
+    "Web Scraping",
+    "Data Extraction",
+    "HTML Parsing",
+    "Web Data",
+    "Scraping Tool",
+    "Web Development",
+    "Node.js"
+  ],
+  "author": "I-As.Dev",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "jsdom": "^24.1.1",
+    "node-cache": "^5.1.2",
+    "node-html-parser": "^6.1.13",
+    "nodemon": "^3.1.4"
+  }
+}

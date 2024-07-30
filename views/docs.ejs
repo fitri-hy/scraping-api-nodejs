@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Scraping | Powered by I-As.Dev</title>
+    <meta name="description" content="Integrasikan API Scraping ke dalam aplikasi Anda untuk ekstraksi data web yang efisien. Dengan dukungan untuk berbagai selector HTML dan format JSON, API kami memungkinkan pengambilan data yang mudah dari halaman web untuk kebutuhan analisis, pelaporan, dan aplikasi web.">
+    <meta name="keywords" content="API Scraping, Web Scraping API, Data Extraction API, HTML Data Extraction, Web Data Extraction Service, API for Scraping Web Data, HTML Parsing API, Web Content Extraction, Scraping Tool API, Extract Data from Web Pages">
+    <meta name="author" content="I-As.Dev">
+
+    <meta property="og:title" content="API Scraping | Powered by I-As.Dev">
+    <meta property="og:description" content="Integrasikan API Scraping ke dalam aplikasi Anda untuk ekstraksi data web yang efisien. Dengan dukungan untuk berbagai selector HTML dan format JSON, API kami memungkinkan pengambilan data yang mudah dari halaman web untuk kebutuhan analisis, pelaporan, dan aplikasi web.">
+    <meta property="og:image" content="https://<%= domain %>/og.png">
+    <meta property="og:url" content="https://<%= domain %>">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="API Scraping">
+    <meta property="og:locale" content="id_ID">
+
+    <link rel="icon" href="/logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-coy.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js" defer></script>
+</head>
+<body class="bg-gray-100 text-gray-700 flex flex-col justify-center items-center">
+    <header class="w-full bg-blue-600 bg-blue pt-20 pb-52">
+        <img src="/logo.png" class="h-36 w-36 m-auto">
+        <h1 class="text-2xl md:text-4xl font-bold text-center text-white">
+            API Scraping
+        </h1>
+        <p class="text-center max-w-lg m-auto text-gray-200 mt-3">
+            Integrasikan API Scraping ke dalam aplikasi Anda untuk ekstraksi data web yang efisien.
+        </p>
+    </header>
+    <main class="w-full px-4">
+        <div class="w-full max-w-2xl m-auto bg-white shadow-lg border px-4 py-9 md:px-6 rounded-lg -mt-32 z-10">
+            <section class="mb-9">
+                <h2 class="text-xl font-bold mb-2">Pendahuluan</h2>
+                <p>API Scraping ini memungkinkan pengguna untuk mengambil dan mengekstrak data dari halaman web berdasarkan selector HTML yang diberikan. Data yang diambil akan dikembalikan dengan format json dan disimpan dalam cache untuk meningkatkan performa dan mengurangi beban pada server.</p>
+            </section>
+            
+            <section class="mb-9">
+                <h2 class="text-xl font-bold mb-2">Endpoint</h2>
+                <div class="bg-white p-4 rounded border">
+                    <p>Base URL: <code class="bg-gray-200 px-2 rounded">https://<%= domain %></code></p>
+                    <p>URL: <code class="bg-gray-200 px-2 rounded">/api/scrape</code></p>
+                    <p>Method: <code class="bg-gray-200 px-2 rounded">POST</code></p>
+                </div>
+            </section>
+
+            <section class="mb-9">
+                <h2 class="text-xl font-bold mb-2">Parameter Permintaan</h2>
+                <p class="mb-2">Body Permintaan:</p>
+                <pre><code class="language-javascript">
+{
+    "url": "https://example.com",
+    "parentSelector": "div.container",
+    "childSelectors": [
+        {
+            "key": "imgData",
+            "selectors": ["img"],
+            "attribute": "src",
+            "textTransform": "toUpperCase",
+            "trim": true,
+            "default": "N/A",
+            "single": true
+        },
+        {
+            "key": "urlData",
+            "selectors": ["a.link"],
+            "attribute": "href",
+            "textTransform": "toLowerCase",
+            "trim": true
+        },
+        {
+            "key": "titleData",
+            "selectors": ["h1.title"],
+            "textTransform": "toUpperCase",
+            "trim": true,
+            "default": "0"
+        }
+    ]
+}
+</code></pre>
+                <h4 class="text-md font-medium mb-2">Penjelasan Parameter:</h4>
+                <ul class="list-disc pl-5 flex flex-col gap-1">
+                    <li><strong>url</strong> (string)<br>URL halaman web yang akan di-scrape. Ini adalah parameter wajib.</li>
+                    <li><strong>parentSelector</strong> (string)<br>Selector untuk elemen induk yang akan digunakan sebagai basis untuk mengekstrak data.</li>
+                    <li><strong>childSelectors:</strong> (array)<br>Array dari objek selector anak yang mendefinisikan bagaimana data akan diambil dari elemen induk.</li>
+                </ul>
+            </section>
+
+            <section class="mb-9">
+                <h2 class="text-xl font-bold mb-2">Respons</h2>
+                <pre><code class="language-javascript">
+[
+    {
+        "imgData": "string",
+        "urlData": "string",
+        "titleData": "string"
+    },
+    {
+        "imgData": "string",
+        "urlData": "string",
+        "titleData": "string"
+    }
+]
+</code></pre>
+            </section>
+
+            <section class="mb-9">
+                <h2 class="text-xl font-bold mb-2">Contoh Penggunaan</h2>
+                <h3 class="mb-2">Dasar:</h3>
+                <pre><code class="language-javascript">
+curl -X POST https://<%= domain %>/api/scrape \
+    -H "Content-Type: application/json" \
+    -d '{
+        "url": "https://example.com",
+        "parentSelector": "div.container",
+        "childSelectors": [
+            { "key": "imgData", "selectors": ["img"], "attribute": "src" },
+            { "key": "urlData", "selectors": ["a.link"], "attribute": "href" },
+            { "key": "titleData", "selectors": ["h1.title"] }
+        ]
+        }'
+</code></pre>
+                
+                <h3 class="mb-2">Penggunaan Lanjutan:</h3>
+                <p>Untuk penggunaan lanjutan, Anda dapat menambahkan parameter opsional seperti <code>textTransform</code>, <code>trim</code>, dan <code>default</code> pada setiap selector anak. Ini memungkinkan Anda untuk memodifikasi data yang diambil sesuai kebutuhan Anda.</p>
+                <pre><code class="language-javascript">
+curl -X POST https://<%= domain %>/api/scrape \
+    -H "Content-Type: application/json" \
+    -d '{
+        "url": "https://example.com",
+        "parentSelector": "div.container",
+        "childSelectors": [
+            {
+                "key": "imgData",
+                "selectors": ["img"],
+                "attribute": "src",
+                "textTransform": "toUpperCase",
+                "trim": true,
+                "default": "N/A",
+                "single": true
+            },
+            {
+                "key": "urlData",
+                "selectors": ["a.link"],
+                "attribute": "href",
+                "textTransform": "toLowerCase",
+                "trim": true
+            },
+            {
+                "key": "titleData",
+                "selectors": ["h1.title"],
+                "textTransform": "toUpperCase",
+                "trim": true,
+                "default": "0"
+            }
+        ]
+        }'
+</code></pre>
+                <p>Dengan parameter tambahan ini, Anda dapat melakukan hal-hal berikut:</pcla>
+                <ul class="list-disc pl-5 mt-2 flex flex-col gap-1">
+                    <li><strong>textTransform</strong><br>Mengubah format teks (misalnya, <code>toUpperCase</code> atau <code>toLowerCase</code>).</li>
+                    <li><strong>trim</strong><br>Menghapus spasi kosong di awal dan akhir teks jika diatur ke <code>true</code>.</li>
+                    <li><strong>default</strong><br>Menyediakan nilai default jika data tidak ditemukan.</li>
+                    <li><strong>single</strong><br>Mengambil hanya elemen pertama jika diatur ke <code>true</code>.</li>
+                </ul>
+            </section>
+
+            <section class="mb-9">
+                <h2 class="text-xl font-bold mb-2">Penanganan Kesalahan</h2>
+                <ul class="list-disc pl-5 mt-2 flex flex-col gap-1">
+                    <li><strong>400 Bad Request</strong><br>Jika input tidak valid (misalnya, <code>url</code>, <code>parentSelector</code>, atau <code>childSelectors</code> tidak diberikan atau formatnya salah).</li>
+                    <li><strong>500 Internal Server Error</strong><br>Jika terjadi kesalahan saat mengambil atau memproses HTML.</li>
+                </ul>
+            </section>
+
+            <section class="mb-9">
+                <h2 class="text-xl font-bold mb-2">Cache</h2>
+                <p>API menggunakan <code>cache</code> untuk menyimpan hasil scraping dalam cache selama 1 jam (<code>stdTTL: 3600 detik</code>). Ini mengurangi jumlah permintaan yang sama ke server dan meningkatkan performa.</p>
+            </section>
+
+            <div class="container mx-auto">
+                <h1 class="text-xl font-bold mb-6">Uji Scraping</h1>
+                
+                <form id="scrape-form" class="space-y-6">
+                    <div class="flex flex-col">
+                        <label for="url" class="text-lg font-medium mb-2">URL:</label>
+                        <input type="text" id="url" value="https://www.w3schools.com/html/html_tables.asp" required class="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+            
+                    <div class="flex flex-col">
+                        <label for="parentSelector" class="text-lg font-medium mb-2">Parent Selector:</label>
+                        <input type="text" id="parentSelector" value="tr" required class="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+            
+                    <div class="flex flex-col">
+                        <label for="childSelectors" class="text-lg font-medium mb-2">Child Selectors (JSON format):</label>
+                        <textarea id="childSelectors" rows="6" required class="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">[
+    { "key": "company", "selectors": ["td:nth-of-type(1)"] },
+    { "key": "contact", "selectors": ["td:nth-of-type(2)"] },
+    { "key": "country", "selectors": ["td:nth-of-type(3)"] }
+]</textarea>
+                    </div>
+                    <div class="flex justify-center">
+                        <button type="submit" class="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Dapatkan Data</button>
+                    </div>
+                </form>
+            
+                <div id="loading" class="hidden flex items-center justify-center mt-6">
+                    <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            
+                <h2 class="text-xl font-bold mt-8 mb-4">Hasil</h2>
+                <pre><code id="results" class="language-javascript"></code></pre>
+            </div>
+        </div>
+    </main>
+    <footer class="p-6 text-center">
+        <p class="text-center text-gray-600">©2024 <a class="text-blue-600 hover:underline" href="https://i-as.dev/">I-As.Dev</a>. All Rights Reserved.</p>
+    </footer>
+    <script>
+        document.getElementById('scrape-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+    
+            const url = document.getElementById('url').value;
+            const parentSelector = document.getElementById('parentSelector').value;
+            const childSelectors = JSON.parse(document.getElementById('childSelectors').value);
+    
+            const loadingIndicator = document.getElementById('loading');
+            const resultsContainer = document.getElementById('results');
+    
+            loadingIndicator.classList.remove('hidden');
+    
+            try {
+                const response = await fetch('/api/scrape', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        url,
+                        parentSelector,
+                        childSelectors
+                    })
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+    
+                const data = await response.json();
+                resultsContainer.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error:', error);
+                resultsContainer.textContent = 'An error occurred. Please check the console for details.';
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
